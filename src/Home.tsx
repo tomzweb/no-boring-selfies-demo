@@ -12,10 +12,12 @@ import ImagePicker from './components/ImagePicker';
 import {Theme} from './theme/Theme';
 import CameraPicker from './components/CameraPicker';
 import RetakeSelfie from './components/RetakeSelfie';
-import {defaultOptions, windowWidth} from './utilities/Utilities';
+import {defaultOptions, windowHeight, windowWidth} from './utilities/Utilities';
+import {Selfie} from './utilities/Types';
+import SelfieImage from './components/SelfieImage';
 
 const Home = () => {
-  const [selfie, setSelfie] = useState<string | undefined>();
+  const [selfie, setSelfie] = useState<Selfie | undefined>();
 
   const onImagePickerHandler = async () => {
     await launchImageLibrary(defaultOptions).then(result =>
@@ -30,7 +32,11 @@ const Home = () => {
   const resultHandler = (result: ImagePickerResponse) => {
     const {assets} = result;
     if (assets && assets.length > 0) {
-      setSelfie(assets[0].base64);
+      setSelfie({
+        base64: assets[0].base64,
+        width: assets[0].width,
+        height: assets[0].height,
+      });
     }
   };
 
@@ -40,18 +46,22 @@ const Home = () => {
       <View style={styles.selectContainer}>
         {selfie ? (
           <>
-            <Image
-              style={styles.selfieImage}
-              resizeMode="cover"
-              source={{uri: `data:image/jpeg;base64,${selfie}`}}
-            />
-            <RetakeSelfie onPressHandler={() => setSelfie(undefined)} />
+            <View style={styles.selfieContainer}>
+              <SelfieImage
+                uri={`data:image/jpeg;base64,${selfie.base64}`}
+                width={selfie.width}
+                height={selfie.height}
+              />
+            </View>
+            <View>
+              <RetakeSelfie onPressHandler={() => setSelfie(undefined)} />
+            </View>
           </>
         ) : (
-          <>
+          <View style={styles.optionsContainer}>
             <ImagePicker onPressHandler={onImagePickerHandler} />
             <CameraPicker onPressHandler={onCameraPickerHandler} />
-          </>
+          </View>
         )}
       </View>
     </View>
@@ -61,18 +71,20 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
     padding: Theme.spacing.large,
-    justifyContent: 'center',
   },
   selectContainer: {
+    flex: 1,
     marginTop: 20,
+    justifyContent: 'flex-start',
   },
-  selfieImage: {
-    width: windowWidth - Theme.spacing.large * 2,
-    height: windowWidth - Theme.spacing.large * 2,
-    borderRadius: Theme.borderRadius.medium,
-    marginBottom: Theme.spacing.large,
+  selfieContainer: {
+    width: (windowWidth - windowWidth / 3) / 2,
+    marginHorizontal: 'auto',
+  },
+  optionsContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
 
