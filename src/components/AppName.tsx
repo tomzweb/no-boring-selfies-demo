@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    marginBottom: Theme.spacing.large,
   },
   text: {
     fontSize: Theme.fontSize.large,
