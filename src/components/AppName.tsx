@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {Theme} from '../theme/Theme';
+import {FontWeight, Theme} from '../theme/Theme';
 
 const AppName = () => {
   return (
@@ -18,10 +18,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   text: {
-    fontSize: 36,
-    fontWeight: '900',
+    fontSize: Theme.fontSize.large,
+    fontWeight: Theme.fontWeight.bold as FontWeight,
     color: Theme.colors.blue,
-    paddingHorizontal: 2.5,
+    paddingHorizontal: Theme.spacing.small,
   },
   textAlt: {
     color: Theme.colors.pink,
