@@ -1,31 +1,48 @@
 import React from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {Image, ImageResizeMode, StyleSheet, View} from 'react-native';
 import {Theme} from '../theme/Theme';
 
 interface Props {
   uri?: string;
-  width?: number;
-  height?: number;
+  containerWidth?: number;
+  imageWidth?: number;
+  imageHeight?: number;
+  aspectRatio?: number;
+  index?: number;
+  resizeMode?: ImageResizeMode;
 }
 
-const SelfieImage = ({uri, width, height}: Props) => {
-  const getAspectRatio = () => {
-    if (!width || !height) {
-      return 1;
-    }
-    return width / height;
-  };
-
+const SelfieImage = ({
+  uri,
+  containerWidth,
+  imageWidth,
+  imageHeight,
+  index = 0,
+  resizeMode = 'cover',
+}: Props) => {
   return (
-    <Image
-      style={[styles.image, {width, height, aspectRatio: getAspectRatio()}]}
-      resizeMode="contain"
-      source={{uri}}
-    />
+    <View
+      style={[
+        styles.container,
+        {
+          width: containerWidth,
+          backgroundColor: index % 2 ? '' : '',
+        },
+      ]}>
+      <Image
+        style={[styles.image, {width: imageWidth, height: imageHeight}]}
+        resizeMode={resizeMode}
+        source={{uri}}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   image: {
     borderRadius: Theme.borderRadius.medium,
   },

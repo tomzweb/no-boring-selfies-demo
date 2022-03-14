@@ -6,7 +6,7 @@ import {BackgroundImage} from '../utilities/Types';
 import {Theme} from '../theme/Theme';
 import SelfieImage from '../components/SelfieImage';
 import {replaceBackground} from 'react-native-image-selfie-segmentation';
-import {windowWidth} from '../utilities/Utilities';
+import {windowHeight, windowWidth} from '../utilities/Utilities';
 
 interface Props {
   selfieUri?: string;
@@ -19,13 +19,19 @@ const ImageCarousel = ({
   selfieWidth = 200,
   selfieHeight = 200,
 }: Props) => {
-  const aspectRatio = selfieWidth / selfieHeight;
-  const maxWidth = windowWidth - Theme.spacing.large * 4;
-  const width = maxWidth;
-  const height = maxWidth * aspectRatio;
+  const aspectRatio =
+    selfieWidth < selfieHeight
+      ? selfieHeight / selfieWidth
+      : selfieWidth / selfieHeight;
+  const maxHeight = windowHeight / 2 - Theme.spacing.large * 2;
+  const maxWidth = windowWidth - Theme.spacing.large * 2;
+  const width = maxHeight / aspectRatio - Theme.spacing.large * 2;
+  const height = maxHeight;
   const [newSelfies, setNewSelfies] = useState<string[]>([]);
+  console.log('WH', width, height, maxWidth, maxHeight);
 
   useEffect(() => {
+    let unmounted = false;
     // load the images from assets folder
     const imageCategories: string[] = Object.keys(Images);
     const images: string[] = [];
@@ -39,17 +45,22 @@ const ImageCarousel = ({
     images.map(image => {
       const getMergedImage = async () => {
         if (selfieUri && image) {
-          await replaceBackground(selfieUri, image, 200).then(result => {
-            setNewSelfies(prev => [...prev, result]);
+          await replaceBackground(selfieUri, image, maxWidth).then(result => {
+            if (!unmounted) {
+              setNewSelfies(prev => [...prev, result]);
+            }
           });
         }
       };
       getMergedImage().then();
     });
-  }, [selfieUri]);
+    return () => {
+      unmounted = true;
+    };
+  }, [maxWidth, selfieUri]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {width: maxWidth, height: maxHeight}]}>
       {newSelfies.length > 0 && (
         <FlatList
           horizontal={true}
@@ -57,12 +68,20 @@ const ImageCarousel = ({
           bounces={false}
           scrollEventThrottle={1}
           showsHorizontalScrollIndicator={false}
-          snapToInterval={width}
+          snapToInterval={maxWidth}
           data={newSelfies}
           initialNumToRender={1}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({item}) => {
-            return <SelfieImage uri={item} width={width} height={height} />;
+          renderItem={({item, index}) => {
+            return (
+              <SelfieImage
+                uri={item}
+                containerWidth={maxWidth}
+                imageWidth={width}
+                imageHeight={height}
+                index={index}
+              />
+            );
           }}
         />
       )}
@@ -71,11 +90,7 @@ const ImageCarousel = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: Theme.borderRadius.medium,
-    padding: Theme.spacing.large,
-    backgroundColor: Theme.colors.blue,
-  },
+  container: {},
 });
 
 export default ImageCarousel;

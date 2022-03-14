@@ -54,7 +54,13 @@ const Home = () => {
         {selfie && selfie.uri !== undefined ? (
           <>
             <View>
-              <SelfieImage uri={selfie.uri} width={200} height={200} />
+              <SelfieImage
+                uri={selfie.uri}
+                imageWidth={200}
+                imageHeight={200}
+                containerWidth={200}
+                resizeMode="cover"
+              />
             </View>
             <View style={styles.retakeContainer}>
               <RetakeSelfie onPressHandler={() => setSelfie(undefined)} />
