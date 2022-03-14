@@ -1,9 +1,9 @@
 import {ImageResolvedAssetSource} from 'react-native';
 
 export interface Image {
-  base64: string | undefined;
-  width: number | undefined;
-  height: number | undefined;
+  uri?: string;
+  width?: number;
+  height?: number;
 }
 
 export interface BackgroundImages {

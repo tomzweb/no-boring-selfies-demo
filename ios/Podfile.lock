@@ -336,7 +336,7 @@ PODS:
     - glog
   - react-native-image-picker (4.7.3):
     - React-Core
-  - react-native-image-selfie-segmentation (0.1.2):
+  - react-native-image-selfie-segmentation (0.2.0):
     - GoogleMLKit/SegmentationSelfie
     - React-Core
   - React-perflogger (0.67.3)
@@ -616,7 +616,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 1e1e03345cf6d47779e2061d679d0a87d9ae73d8
   React-logger: 1e10789cb84f99288479ba5f20822ce43ced6ffe
   react-native-image-picker: 4e6008ad8c2321622affa2c85432a5ebd02d480c
-  react-native-image-selfie-segmentation: 084ec75380e38e00b2b3aaa36acf65e4d5c3835f
+  react-native-image-selfie-segmentation: fba7f536ff28588010cef205f1e1ffff5ed52344
   React-perflogger: 93d3f142d6d9a46e635f09ba0518027215a41098
   React-RCTActionSheet: 87327c3722203cc79cf79d02fb83e7332aeedd18
   React-RCTAnimation: 009c87c018d50e0b38692699405ebe631ff4872d

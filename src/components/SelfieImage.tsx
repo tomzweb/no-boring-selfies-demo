@@ -3,9 +3,9 @@ import {Image, StyleSheet} from 'react-native';
 import {Theme} from '../theme/Theme';
 
 interface Props {
-  uri: string;
-  width: number | undefined;
-  height: number | undefined;
+  uri?: string;
+  width?: number;
+  height?: number;
 }
 
 const SelfieImage = ({uri, width, height}: Props) => {
@@ -18,7 +18,7 @@ const SelfieImage = ({uri, width, height}: Props) => {
 
   return (
     <Image
-      style={[styles.image, {aspectRatio: getAspectRatio()}]}
+      style={[styles.image, {width, height, aspectRatio: getAspectRatio()}]}
       resizeMode="contain"
       source={{uri}}
     />
@@ -27,10 +27,7 @@ const SelfieImage = ({uri, width, height}: Props) => {
 
 const styles = StyleSheet.create({
   image: {
-    width: '100%',
     borderRadius: Theme.borderRadius.medium,
-    backgroundColor: Theme.colors.blue,
-    marginBottom: Theme.spacing.large,
   },
 });
 
