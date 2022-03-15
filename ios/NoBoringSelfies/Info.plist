@@ -53,6 +53,10 @@
 	<string>Access to photo library is required to select a photo</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+    <string>Ionicons.ttf</string>
+	</array>
 	<key>NSCameraUsageDescription</key>
 	<string>Access to camera is required to take a photo</string>
 </dict>

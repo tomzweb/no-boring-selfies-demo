@@ -11,11 +11,15 @@ const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const contentStyle = {
-    backgroundColor: isDarkMode ? Theme.colors.greyDark : Theme.colors.greyDark,
+    backgroundColor: isDarkMode
+      ? Theme.colors.greyDark
+      : Theme.colors.greyLightest,
   };
 
   const headerStyle = {
-    backgroundColor: isDarkMode ? Theme.colors.greyDark : Theme.colors.greyDark,
+    backgroundColor: isDarkMode
+      ? Theme.colors.greyDark
+      : Theme.colors.greyLightest,
     color: isDarkMode ? Theme.colors.pink : Theme.colors.blue,
   };
 

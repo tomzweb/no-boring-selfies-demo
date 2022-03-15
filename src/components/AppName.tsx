@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     fontSize: Theme.fontSize.larger,
     fontWeight: Theme.fontWeight.bold as FontWeight,
     color: Theme.colors.blue,
-    paddingHorizontal: Theme.spacing.small,
   },
   textAlt: {
     color: Theme.colors.pink,

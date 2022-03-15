@@ -2,8 +2,9 @@ export const Theme = {
   fontSize: {
     small: 14,
     medium: 20,
-    large: 36,
-    larger: 48,
+    large: 30,
+    larger: 40,
+    max: 50,
   },
   fontWeight: {
     light: '300',
@@ -26,8 +27,9 @@ export const Theme = {
     grey: '#4e4e4e',
     greyDark: '#343434',
     greyDarkest: '#242424',
-    pink: '#ffb6bb',
+    pink: '#fc9096',
     blue: '#54c8f3',
+    blueDark: '#3c9aa5',
   },
 };
 
