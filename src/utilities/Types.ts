@@ -6,6 +6,12 @@ export interface Image {
   height: number;
 }
 
+export interface Selfie {
+  selfieUri: string;
+  backgroundUri: string;
+  mergedUri: string;
+}
+
 export interface BackgroundImages {
   [key: string]: BackgroundImage[];
 }

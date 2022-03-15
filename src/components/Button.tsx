@@ -30,7 +30,7 @@ const Button = ({title, icon, iconSize, iconColor, onPressHandler}: Props) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: Theme.spacing.medium,
+    padding: Theme.spacing.large,
     backgroundColor: Theme.colors.blue,
     borderRadius: Theme.borderRadius.small,
     marginBottom: Theme.spacing.medium,

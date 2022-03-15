@@ -32,7 +32,7 @@ const App = () => {
           headerStyle: headerStyle,
           headerTitleStyle: headerStyle,
           headerLargeTitleShadowVisible: false,
-          headerTintColor: headerStyle.color,
+          headerTintColor: Theme.colors.pink,
           contentStyle: [styles.container, contentStyle],
         }}>
         <Stack.Screen

@@ -5,6 +5,7 @@ import {Theme} from '../theme/Theme';
 interface Props {
   uri?: string;
   containerWidth?: number;
+  containerHeight?: number;
   imageWidth?: number;
   imageHeight?: number;
   aspectRatio?: number;
@@ -39,10 +40,7 @@ const SelfieImage = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  container: {},
   image: {
     borderRadius: Theme.borderRadius.medium,
   },
