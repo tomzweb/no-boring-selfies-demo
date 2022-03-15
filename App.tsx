@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet, useColorScheme} from 'react-native';
 import {Theme} from './src/theme/Theme';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import HomeScreen from './src/HomeScreen';
 import GalleryScreen from './src/GalleryScreen';
@@ -10,17 +10,42 @@ import GalleryScreen from './src/GalleryScreen';
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
+  const contentStyle = {
     backgroundColor: isDarkMode ? Theme.colors.greyDark : Theme.colors.greyDark,
+  };
+
+  const headerStyle = {
+    backgroundColor: isDarkMode ? Theme.colors.greyDark : Theme.colors.greyDark,
+    color: isDarkMode ? Theme.colors.pink : Theme.colors.blue,
   };
 
   const Stack = createNativeStackNavigator();
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Gallery" component={GalleryScreen} />
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: headerStyle,
+          headerTitleStyle: headerStyle,
+          headerLargeTitleShadowVisible: false,
+          headerTintColor: headerStyle.color,
+          contentStyle: [styles.container, contentStyle],
+        }}>
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Gallery"
+          component={GalleryScreen}
+          options={{
+            headerTitle: '',
+            headerBackTitle: 'Change Selfie',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

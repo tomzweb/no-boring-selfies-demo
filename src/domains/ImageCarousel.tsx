@@ -28,7 +28,6 @@ const ImageCarousel = ({
   const width = maxHeight / aspectRatio - Theme.spacing.large * 2;
   const height = maxHeight;
   const [newSelfies, setNewSelfies] = useState<string[]>([]);
-  console.log('WH', width, height, maxWidth, maxHeight);
 
   useEffect(() => {
     let unmounted = false;

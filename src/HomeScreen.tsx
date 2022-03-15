@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React from 'react';
+import {StyleSheet} from 'react-native';
 import {
   ImagePickerResponse,
   launchCamera,
@@ -7,13 +7,11 @@ import {
 } from 'react-native-image-picker';
 
 import AppName from './components/AppName';
-import ImagePicker from './components/ImagePicker';
+import Button from './components/Button';
 import {Theme} from './theme/Theme';
-import CameraPicker from './components/CameraPicker';
-import RetakeSelfie from './components/RetakeSelfie';
 import {defaultOptions} from './utilities/Utilities';
-import SelfieImage from './components/SelfieImage';
 import {NavigationProp} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 interface Props {
   navigation: NavigationProp<any>;
@@ -42,15 +40,14 @@ const HomeScreen = ({navigation}: Props) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <AppName />
-      <View style={styles.selectContainer}>
-        <View style={styles.optionsContainer}>
-          <ImagePicker onPressHandler={onImagePickerHandler} />
-          <CameraPicker onPressHandler={onCameraPickerHandler} />
-        </View>
-      </View>
-    </View>
+      <Button
+        title="Select an image from your photo library"
+        onPressHandler={onImagePickerHandler}
+      />
+      <Button title="Take a photo" onPressHandler={onCameraPickerHandler} />
+    </SafeAreaView>
   );
 };
 
@@ -58,19 +55,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: Theme.spacing.large,
-  },
-  selectContainer: {
-    flex: 1,
-    marginTop: Theme.spacing.large,
-    justifyContent: 'flex-start',
-  },
-  optionsContainer: {
-    flex: 1,
     justifyContent: 'center',
-    marginTop: Theme.spacing.large,
-  },
-  retakeContainer: {
-    marginTop: Theme.spacing.large,
   },
 });
 

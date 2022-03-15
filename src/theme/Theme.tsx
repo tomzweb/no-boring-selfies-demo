@@ -3,10 +3,11 @@ export const Theme = {
     small: 14,
     medium: 20,
     large: 36,
+    larger: 48,
   },
   fontWeight: {
-    light: '100',
-    medium: '400',
+    light: '300',
+    medium: '500',
     bold: '900',
   },
   spacing: {
@@ -24,6 +25,7 @@ export const Theme = {
     greyLight: '#a4a4a4',
     grey: '#4e4e4e',
     greyDark: '#343434',
+    greyDarkest: '#242424',
     pink: '#ffb6bb',
     blue: '#54c8f3',
   },

@@ -14,12 +14,10 @@ const AppName = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
     marginBottom: Theme.spacing.large,
   },
   text: {
-    fontSize: Theme.fontSize.large,
+    fontSize: Theme.fontSize.larger,
     fontWeight: Theme.fontWeight.bold as FontWeight,
     color: Theme.colors.blue,
     paddingHorizontal: Theme.spacing.small,
