@@ -1,12 +1,11 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  useColorScheme,
-} from 'react-native';
-import Home from './src/Home';
+import {StyleSheet, useColorScheme} from 'react-native';
 import {Theme} from './src/theme/Theme';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+import HomeScreen from './src/HomeScreen';
+import GalleryScreen from './src/GalleryScreen';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -15,11 +14,15 @@ const App = () => {
     backgroundColor: isDarkMode ? Theme.colors.greyDark : Theme.colors.greyDark,
   };
 
+  const Stack = createNativeStackNavigator();
+
   return (
-    <SafeAreaView style={[styles.container, backgroundStyle]}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Home />
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Gallery" component={GalleryScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

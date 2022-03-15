@@ -336,9 +336,15 @@ PODS:
     - glog
   - react-native-image-picker (4.7.3):
     - React-Core
-  - react-native-image-selfie-segmentation (0.2.0):
+  - react-native-image-selfie-segmentation (0.2.1):
     - GoogleMLKit/SegmentationSelfie
     - React-Core
+  - react-native-safe-area-context (4.1.4):
+    - RCT-Folly
+    - RCTRequired
+    - RCTTypeSafety
+    - React
+    - ReactCommon/turbomodule/core
   - React-perflogger (0.67.3)
   - React-RCTActionSheet (0.67.3):
     - React-Core/RCTActionSheetHeaders (= 0.67.3)
@@ -406,6 +412,9 @@ PODS:
     - React-perflogger (= 0.67.3)
   - rn-fetch-blob (0.12.0):
     - React-Core
+  - RNScreens (3.13.1):
+    - React-Core
+    - React-RCTImage
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -454,6 +463,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-image-selfie-segmentation (from `../node_modules/react-native-image-selfie-segmentation`)
+  - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
   - React-RCTAnimation (from `../node_modules/react-native/Libraries/NativeAnimation`)
@@ -467,6 +477,7 @@ DEPENDENCIES:
   - React-runtimeexecutor (from `../node_modules/react-native/ReactCommon/runtimeexecutor`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
+  - RNScreens (from `../node_modules/react-native-screens`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -540,6 +551,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-image-picker"
   react-native-image-selfie-segmentation:
     :path: "../node_modules/react-native-image-selfie-segmentation"
+  react-native-safe-area-context:
+    :path: "../node_modules/react-native-safe-area-context"
   React-perflogger:
     :path: "../node_modules/react-native/ReactCommon/reactperflogger"
   React-RCTActionSheet:
@@ -566,6 +579,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   rn-fetch-blob:
     :path: "../node_modules/rn-fetch-blob"
+  RNScreens:
+    :path: "../node_modules/react-native-screens"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -616,7 +631,8 @@ SPEC CHECKSUMS:
   React-jsinspector: 1e1e03345cf6d47779e2061d679d0a87d9ae73d8
   React-logger: 1e10789cb84f99288479ba5f20822ce43ced6ffe
   react-native-image-picker: 4e6008ad8c2321622affa2c85432a5ebd02d480c
-  react-native-image-selfie-segmentation: fba7f536ff28588010cef205f1e1ffff5ed52344
+  react-native-image-selfie-segmentation: c0751ede54bd4bc01fab4f247a4f0b4fcc1eda29
+  react-native-safe-area-context: 989fa91e705bc7f2bc2a0d76d72104111f825c2a
   React-perflogger: 93d3f142d6d9a46e635f09ba0518027215a41098
   React-RCTActionSheet: 87327c3722203cc79cf79d02fb83e7332aeedd18
   React-RCTAnimation: 009c87c018d50e0b38692699405ebe631ff4872d
@@ -630,6 +646,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: af1946623656f9c5fd64ca6f36f3863516193446
   ReactCommon: 650e33cde4fb7d36781cd3143f5276da0abb2f96
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
+  RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   Yoga: 90dcd029e45d8a7c1ff059e8b3c6612ff409061a
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

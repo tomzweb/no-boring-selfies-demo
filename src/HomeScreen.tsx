@@ -12,17 +12,18 @@ import {Theme} from './theme/Theme';
 import CameraPicker from './components/CameraPicker';
 import RetakeSelfie from './components/RetakeSelfie';
 import {defaultOptions} from './utilities/Utilities';
-import {Image as ImageProps} from './utilities/Types';
 import SelfieImage from './components/SelfieImage';
-import ImageCarousel from './domains/ImageCarousel';
+import {NavigationProp} from '@react-navigation/native';
 
-const Home = () => {
-  const [selfie, setSelfie] = useState<ImageProps | undefined>();
+interface Props {
+  navigation: NavigationProp<any>;
+}
 
+const HomeScreen = ({navigation}: Props) => {
   const resultHandler = (result: ImagePickerResponse) => {
     const {assets} = result;
     if (assets && assets.length > 0) {
-      setSelfie({
+      navigation.navigate('Gallery', {
         uri: assets[0].uri,
         width: assets[0].width,
         height: assets[0].height,
@@ -43,35 +44,11 @@ const Home = () => {
   return (
     <View style={styles.container}>
       <AppName />
-      {selfie !== undefined && (
-        <ImageCarousel
-          selfieUri={selfie.uri}
-          selfieWidth={selfie.width}
-          selfieHeight={selfie.height}
-        />
-      )}
       <View style={styles.selectContainer}>
-        {selfie && selfie.uri !== undefined ? (
-          <>
-            <View>
-              <SelfieImage
-                uri={selfie.uri}
-                imageWidth={200}
-                imageHeight={200}
-                containerWidth={200}
-                resizeMode="cover"
-              />
-            </View>
-            <View style={styles.retakeContainer}>
-              <RetakeSelfie onPressHandler={() => setSelfie(undefined)} />
-            </View>
-          </>
-        ) : (
-          <View style={styles.optionsContainer}>
-            <ImagePicker onPressHandler={onImagePickerHandler} />
-            <CameraPicker onPressHandler={onCameraPickerHandler} />
-          </View>
-        )}
+        <View style={styles.optionsContainer}>
+          <ImagePicker onPressHandler={onImagePickerHandler} />
+          <CameraPicker onPressHandler={onCameraPickerHandler} />
+        </View>
       </View>
     </View>
   );
@@ -97,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default HomeScreen;

@@ -1,9 +1,9 @@
 import {ImageResolvedAssetSource} from 'react-native';
 
 export interface Image {
-  uri?: string;
-  width?: number;
-  height?: number;
+  uri: string;
+  width: number;
+  height: number;
 }
 
 export interface BackgroundImages {
@@ -13,3 +13,12 @@ export interface BackgroundImages {
 export interface BackgroundImage {
   src: ImageResolvedAssetSource;
 }
+
+export type RootStackParamList = {
+  Home: undefined;
+  Gallery: {
+    uri: string;
+    width: number;
+    height: number;
+  };
+};
