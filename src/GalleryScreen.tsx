@@ -3,7 +3,7 @@ import {
   FlatList,
   PermissionsAndroid,
   Platform,
-  StyleSheet,
+  StyleSheet, useColorScheme,
   View,
 } from 'react-native';
 import CameraRoll from '@react-native-community/cameraroll';
@@ -18,10 +18,12 @@ import Button from './components/Button';
 import Loading from './components/Loading';
 import useReplaceBackground from './hooks/useReplaceBackgrounds';
 import Filters from './components/Filters';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Gallery'>;
 
 const GalleryScreen = ({route}: Props) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const [currentImage, setCurrentImage] = useState<Selfie>();
   const [isLoadingSave, setIsLoadingSave] = useState<boolean>(false);
   const [savedMessage, setSavedMessage] = useState<string>();
@@ -29,7 +31,6 @@ const GalleryScreen = ({route}: Props) => {
   const aspectRatio = width < height ? height / width : width / height;
   const maxWidth = windowWidth - Theme.spacing.large * 2;
   const maxHeight = aspectRatio > 1 ? maxWidth * aspectRatio : maxWidth;
-  const containerWidth = maxWidth;
 
   const {newSelfies, loading, filters, currentFilter, setCurrentFilter} =
     useReplaceBackground({
@@ -86,8 +87,12 @@ const GalleryScreen = ({route}: Props) => {
     }
   };
 
+  const backgroundColor = isDarkMode
+    ? Theme.colors.greyDark
+    : Theme.colors.white;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor}]}>
       <Loading isActive={loading} title="Processing" />
       {!loading && newSelfies.length > 0 && (
         <>
@@ -142,7 +147,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Theme.spacing.large,
-    backgroundColor: Theme.colors.grey,
   },
   flatList: {
     marginBottom: Theme.spacing.large,

@@ -24,7 +24,8 @@ export const Theme = {
     full: 9999,
   },
   colors: {
-    greyLightest: '#dcdcdc',
+    white: '#ffffff',
+    greyLightest: '#f0f0f0',
     greyLight: '#a4a4a4',
     grey: '#4e4e4e',
     greyDark: '#343434',

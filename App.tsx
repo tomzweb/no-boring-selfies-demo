@@ -12,13 +12,13 @@ const App = () => {
 
   const contentStyle = {
     backgroundColor: isDarkMode
-      ? Theme.colors.greyDark
+      ? Theme.colors.greyDarkest
       : Theme.colors.greyLightest,
   };
 
   const headerStyle = {
     backgroundColor: isDarkMode
-      ? Theme.colors.greyDark
+      ? Theme.colors.greyDarkest
       : Theme.colors.greyLightest,
     color: isDarkMode ? Theme.colors.pink : Theme.colors.blue,
   };

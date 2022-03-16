@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     fontSize: Theme.fontSize.medium,
     fontWeight: Theme.fontWeight.light as FontWeight,
     flexShrink: 1,
+    textAlign: 'right',
   },
 });
 
