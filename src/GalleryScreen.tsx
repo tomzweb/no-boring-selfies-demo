@@ -1,7 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   FlatList,
-  Image,
   PermissionsAndroid,
   Platform,
   StyleSheet,
@@ -10,25 +9,29 @@ import {
 import CameraRoll from '@react-native-community/cameraroll';
 
 import {Theme} from './theme/Theme';
-import {BackgroundImage, RootStackParamList, Selfie} from './utilities/Types';
+import {RootStackParamList, Selfie} from './utilities/Types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {windowWidth} from './utilities/Utilities';
-import Images from './assets/images/Images';
 import {replaceBackground} from 'react-native-image-selfie-segmentation';
 import SelfieImage from './components/SelfieImage';
 import Button from './components/Button';
+import Loading from './components/Loading';
+import useReplaceBackground from './hooks/useReplaceBackgrounds';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Gallery'>;
 
 const GalleryScreen = ({route}: Props) => {
-  const [allImages, setAllImages] = useState<string[]>([]);
-  const [newSelfies, setNewSelfies] = useState<Selfie[]>([]);
   const [currentImage, setCurrentImage] = useState<Selfie>();
   const {uri, width, height} = route.params;
   const aspectRatio = width < height ? height / width : width / height;
   const maxWidth = windowWidth - Theme.spacing.large * 2;
   const maxHeight = aspectRatio > 1 ? maxWidth * aspectRatio : maxWidth;
   const containerWidth = maxWidth;
+
+  const {newSelfies, loading} = useReplaceBackground({
+    selfieUri: uri,
+    maxWidth,
+  });
 
   const hasAndroidPermission = async () => {
     const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
@@ -47,48 +50,6 @@ const GalleryScreen = ({route}: Props) => {
       setCurrentImage(viewableItems[0].item);
     }
   }, []);
-
-  useEffect(() => {
-    // load the images from assets folder
-    const imageCategories: string[] = Object.keys(Images);
-    const images: string[] = [];
-    imageCategories.map(key => {
-      Images[key].map((image: BackgroundImage) => {
-        const imageUri = Image.resolveAssetSource(image.src).uri;
-        images.push(imageUri);
-      });
-    });
-    setAllImages(images);
-  }, [maxWidth, uri]);
-
-  useEffect(() => {
-    let unmounted = false;
-    // convert the backgrounds to include selfie
-    allImages.map(image => {
-      const getMergedImage = async () => {
-        if (uri && image) {
-          await replaceBackground(uri, image, maxWidth).then(result => {
-            if (!unmounted) {
-              setNewSelfies(prev => {
-                return [
-                  ...prev,
-                  {
-                    selfieUri: uri,
-                    backgroundUri: image,
-                    mergedUri: result,
-                  },
-                ];
-              });
-            }
-          });
-        }
-      };
-      getMergedImage().then();
-    });
-    return () => {
-      unmounted = true;
-    };
-  }, [allImages, maxWidth, uri]);
 
   const saveImage = async () => {
     if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
@@ -110,7 +71,8 @@ const GalleryScreen = ({route}: Props) => {
 
   return (
     <View style={styles.container}>
-      {newSelfies.length > 0 && (
+      <Loading isActive={loading} title="Processing" />
+      {!loading && newSelfies.length > 0 && (
         <>
           <View style={styles.flatList}>
             <FlatList
