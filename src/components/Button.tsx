@@ -20,7 +20,7 @@ const Button = ({title, icon, iconSize, iconColor, onPressHandler}: Props) => {
           style={styles.icon}
           name={icon}
           size={iconSize ?? Theme.fontSize.medium}
-          color={iconColor ?? Theme.colors.greyDark}
+          color={iconColor ?? Theme.colors.greyLightest}
         />
       )}
       <Text style={styles.text}>{title}</Text>

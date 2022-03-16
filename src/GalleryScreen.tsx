@@ -1,5 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, Image, StyleSheet, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  PermissionsAndroid,
+  Platform,
+  StyleSheet,
+  View,
+} from 'react-native';
+import CameraRoll from '@react-native-community/cameraroll';
 
 import {Theme} from './theme/Theme';
 import {BackgroundImage, RootStackParamList, Selfie} from './utilities/Types';
@@ -21,6 +29,18 @@ const GalleryScreen = ({route}: Props) => {
   const maxWidth = windowWidth - Theme.spacing.large * 2;
   const maxHeight = aspectRatio > 1 ? maxWidth * aspectRatio : maxWidth;
   const containerWidth = maxWidth;
+
+  const hasAndroidPermission = async () => {
+    const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
+
+    const hasPermission = await PermissionsAndroid.check(permission);
+    if (hasPermission) {
+      return true;
+    }
+
+    const status = await PermissionsAndroid.request(permission);
+    return status === 'granted';
+  };
 
   const onSelfieChange = useCallback(({viewableItems}) => {
     if (viewableItems.length > 0) {
@@ -71,13 +91,19 @@ const GalleryScreen = ({route}: Props) => {
   }, [allImages, maxWidth, uri]);
 
   const saveImage = async () => {
+    if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
+      // todo: add response / error
+      return;
+    }
+
     if (currentImage) {
       await replaceBackground(
         currentImage.selfieUri,
         currentImage.backgroundUri,
         width,
       ).then(result => {
-        console.log('RESULT', result);
+        // todo: add response / error
+        CameraRoll.save(result, {type: 'photo'});
       });
     }
   };
