@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
-import {Animated, Easing, StyleSheet, Text, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 import {FontWeight, Theme} from '../theme/Theme';
 import {windowWidth} from '../utilities/Utilities';
@@ -18,7 +17,7 @@ const Loading = ({isActive, title}: Props) => {
 
   return (
     <View style={styles.container}>
-      <LoadingIcon size={Theme.fontSize.medium} />
+      <LoadingIcon size={Theme.fontSize.larger} />
       {title && <Text style={styles.text}>{title}</Text>}
     </View>
   );

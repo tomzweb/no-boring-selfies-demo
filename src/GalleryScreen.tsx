@@ -22,7 +22,8 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Gallery'>;
 
 const GalleryScreen = ({route}: Props) => {
   const [currentImage, setCurrentImage] = useState<Selfie>();
-  const [loadingSaved, setLoadingSaved] = useState<boolean>(false);
+  const [isLoadingSave, setIsLoadingSave] = useState<boolean>(false);
+  const [savedMessage, setSavedMessage] = useState<string>();
   const {uri, width, height} = route.params;
   const aspectRatio = width < height ? height / width : width / height;
   const maxWidth = windowWidth - Theme.spacing.large * 2;
@@ -53,13 +54,17 @@ const GalleryScreen = ({route}: Props) => {
   }, []);
 
   const saveImage = async () => {
+    // set default message
+    setSavedMessage(undefined);
+
+    // check android permissions
     if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
-      // todo: add response / error
+      setSavedMessage('Please allow permission for library');
       return;
     }
 
     if (currentImage) {
-      setLoadingSaved(true);
+      setIsLoadingSave(true);
       await replaceBackground(
         currentImage.selfieUri,
         currentImage.backgroundUri,
@@ -67,9 +72,13 @@ const GalleryScreen = ({route}: Props) => {
       )
         .then(result => {
           CameraRoll.save(result, {type: 'photo'});
+          setSavedMessage('Saved');
+        })
+        .catch(error => {
+          setSavedMessage(error);
         })
         .finally(() => {
-          setLoadingSaved(false);
+          setIsLoadingSave(false);
         });
     }
   };
@@ -107,10 +116,11 @@ const GalleryScreen = ({route}: Props) => {
           </View>
           <Button
             icon="ios-save"
-            loading={loadingSaved}
+            loading={isLoadingSave}
             iconSize={Theme.fontSize.large}
             onPressHandler={saveImage}
             title={'Save to Photo Library'}
+            onPressResultText={isLoadingSave ? 'Saving...' : savedMessage}
           />
         </>
       )}
