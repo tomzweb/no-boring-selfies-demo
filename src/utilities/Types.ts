@@ -28,3 +28,8 @@ export type RootStackParamList = {
     height: number;
   };
 };
+
+export enum Picker {
+  CAMERA = 'CAMERA',
+  LIBRARY = 'LIBRARY'
+}

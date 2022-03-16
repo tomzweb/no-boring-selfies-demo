@@ -1,18 +1,19 @@
-import React from 'react';
-import {StyleSheet, Text, useColorScheme, View} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, useColorScheme} from 'react-native';
 import {
   ImagePickerResponse,
   launchCamera,
   launchImageLibrary,
 } from 'react-native-image-picker';
+import {NavigationProp} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import AppName from './components/AppName';
 import Button from './components/Button';
-import {FontWeight, Theme} from './theme/Theme';
+import {Theme} from './theme/Theme';
 import {defaultOptions} from './utilities/Utilities';
-import {NavigationProp} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import InstructionText from './components/InstructionText';
+import {Picker} from './utilities/Types';
 
 interface Props {
   navigation: NavigationProp<any>;
@@ -20,6 +21,7 @@ interface Props {
 
 const HomeScreen = ({navigation}: Props) => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [loading, setLoading] = useState<Picker | null>();
 
   const resultHandler = (result: ImagePickerResponse) => {
     const {assets} = result;
@@ -33,13 +35,21 @@ const HomeScreen = ({navigation}: Props) => {
   };
 
   const onImagePickerHandler = async () => {
-    await launchImageLibrary(defaultOptions).then(result =>
-      resultHandler(result),
-    );
+    setLoading(Picker.LIBRARY);
+    await launchImageLibrary(defaultOptions)
+      .then(result => resultHandler(result))
+      .finally(() => {
+        setLoading(null);
+      });
   };
 
   const onCameraPickerHandler = async () => {
-    await launchCamera(defaultOptions).then(result => resultHandler(result));
+    setLoading(Picker.CAMERA);
+    await launchCamera(defaultOptions)
+      .then(result => resultHandler(result))
+      .finally(() => {
+        setLoading(null);
+      });
   };
 
   const iconColor = isDarkMode
@@ -53,6 +63,7 @@ const HomeScreen = ({navigation}: Props) => {
       <Button
         title="From your photo library"
         icon="ios-images"
+        loading={loading === Picker.LIBRARY}
         iconSize={Theme.fontSize.larger * 2}
         iconColor={iconColor}
         onPressHandler={onImagePickerHandler}
@@ -60,6 +71,7 @@ const HomeScreen = ({navigation}: Props) => {
       <Button
         title="Take a new selfie"
         icon="ios-camera"
+        loading={loading === Picker.CAMERA}
         iconSize={Theme.fontSize.larger * 2}
         iconColor={iconColor}
         onPressHandler={onCameraPickerHandler}

@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 import {FontWeight, Theme} from '../theme/Theme';
 import {windowWidth} from '../utilities/Utilities';
+import LoadingIcon from './LoadingIcon';
 
 interface Props {
   isActive: boolean;
@@ -11,35 +12,13 @@ interface Props {
 }
 
 const Loading = ({isActive, title}: Props) => {
-  const spinValue = new Animated.Value(0);
-
-  Animated.loop(
-    Animated.timing(spinValue, {
-      toValue: 1,
-      duration: 3000,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }),
-  ).start();
-
   if (!isActive) {
     return null;
   }
 
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
-
   return (
     <View style={styles.container}>
-      <Animated.View style={{transform: [{rotate: spin}]}}>
-        <Icon
-          name={'ios-cog'}
-          size={Theme.fontSize.large}
-          color={Theme.colors.greyLightest}
-        />
-      </Animated.View>
+      <LoadingIcon size={Theme.fontSize.medium} />
       {title && <Text style={styles.text}>{title}</Text>}
     </View>
   );

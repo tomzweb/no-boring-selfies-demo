@@ -22,6 +22,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Gallery'>;
 
 const GalleryScreen = ({route}: Props) => {
   const [currentImage, setCurrentImage] = useState<Selfie>();
+  const [loadingSaved, setLoadingSaved] = useState<boolean>(false);
   const {uri, width, height} = route.params;
   const aspectRatio = width < height ? height / width : width / height;
   const maxWidth = windowWidth - Theme.spacing.large * 2;
@@ -58,14 +59,18 @@ const GalleryScreen = ({route}: Props) => {
     }
 
     if (currentImage) {
+      setLoadingSaved(true);
       await replaceBackground(
         currentImage.selfieUri,
         currentImage.backgroundUri,
         width,
-      ).then(result => {
-        // todo: add response / error
-        CameraRoll.save(result, {type: 'photo'});
-      });
+      )
+        .then(result => {
+          CameraRoll.save(result, {type: 'photo'});
+        })
+        .finally(() => {
+          setLoadingSaved(false);
+        });
     }
   };
 
@@ -102,6 +107,7 @@ const GalleryScreen = ({route}: Props) => {
           </View>
           <Button
             icon="ios-save"
+            loading={loadingSaved}
             iconSize={Theme.fontSize.large}
             onPressHandler={saveImage}
             title={'Save to Photo Library'}
