@@ -58,15 +58,16 @@ const GalleryScreen = ({route}: Props) => {
   const saveImage = async () => {
     // set default message
     setSavedMessage(undefined);
+    setIsLoadingSave(true);
 
     // check android permissions
     if (Platform.OS === 'android' && !(await hasAndroidPermission())) {
       setSavedMessage('Please allow permission for library');
+      setIsLoadingSave(false);
       return;
     }
 
     if (currentImage) {
-      setIsLoadingSave(true);
       await replaceBackground(
         currentImage.selfieUri,
         currentImage.backgroundUri,
@@ -102,7 +103,7 @@ const GalleryScreen = ({route}: Props) => {
               bounces={false}
               scrollEventThrottle={1}
               showsHorizontalScrollIndicator={false}
-              snapToInterval={containerWidth}
+              snapToInterval={windowWidth}
               data={newSelfies}
               initialNumToRender={1}
               onViewableItemsChanged={onSelfieChange}
@@ -111,7 +112,7 @@ const GalleryScreen = ({route}: Props) => {
                 return (
                   <SelfieImage
                     uri={item.mergedUri}
-                    containerWidth={containerWidth}
+                    containerWidth={windowWidth}
                     imageWidth={maxWidth}
                     imageHeight={maxHeight}
                     index={index}
@@ -121,14 +122,16 @@ const GalleryScreen = ({route}: Props) => {
               }}
             />
           </View>
-          <Button
-            icon="ios-save"
-            loading={isLoadingSave}
-            iconSize={Theme.fontSize.large}
-            onPressHandler={saveImage}
-            title={'Save to Photo Library'}
-            onPressResultText={isLoadingSave ? 'Saving...' : savedMessage}
-          />
+          <View style={styles.btnGroup}>
+            <Button
+              icon="ios-save"
+              loading={isLoadingSave}
+              iconSize={Theme.fontSize.large}
+              onPressHandler={saveImage}
+              title={'Save to Photo Library'}
+              onPressResultText={isLoadingSave ? 'Saving...' : savedMessage}
+            />
+          </View>
         </>
       )}
     </View>
@@ -138,10 +141,14 @@ const GalleryScreen = ({route}: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: Theme.spacing.large,
+    paddingTop: Theme.spacing.large,
+    backgroundColor: Theme.colors.grey,
   },
   flatList: {
     marginBottom: Theme.spacing.large,
+  },
+  btnGroup: {
+    paddingHorizontal: Theme.spacing.large,
   },
 });
 

@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     borderRadius: Theme.borderRadius.full,
     borderWidth: Theme.spacing.tiny,
     borderColor: Theme.colors.blue,
-    marginRight: Theme.spacing.medium,
+    marginLeft: Theme.spacing.large,
   },
   btnActive: {
     backgroundColor: Theme.colors.blue,

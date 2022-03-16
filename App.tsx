@@ -31,7 +31,7 @@ const App = () => {
         screenOptions={{
           headerStyle: headerStyle,
           headerTitleStyle: headerStyle,
-          headerLargeTitleShadowVisible: false,
+          headerShadowVisible: false,
           headerTintColor: Theme.colors.pink,
           contentStyle: [styles.container, contentStyle],
         }}>

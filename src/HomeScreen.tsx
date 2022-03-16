@@ -21,7 +21,7 @@ interface Props {
 
 const HomeScreen = ({navigation}: Props) => {
   const isDarkMode = useColorScheme() === 'dark';
-  const [loading, setLoading] = useState<Picker | null>();
+  const [loading, setLoading] = useState<Picker | boolean>(false);
 
   const resultHandler = (result: ImagePickerResponse) => {
     const {assets} = result;
@@ -39,7 +39,7 @@ const HomeScreen = ({navigation}: Props) => {
     await launchImageLibrary(defaultOptions)
       .then(result => resultHandler(result))
       .finally(() => {
-        setLoading(null);
+        setLoading(false);
       });
   };
 
@@ -48,7 +48,7 @@ const HomeScreen = ({navigation}: Props) => {
     await launchCamera(defaultOptions)
       .then(result => resultHandler(result))
       .finally(() => {
-        setLoading(null);
+        setLoading(false);
       });
   };
 

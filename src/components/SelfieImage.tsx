@@ -40,7 +40,9 @@ const SelfieImage = ({
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    alignItems: 'center',
+  },
   image: {
     borderRadius: Theme.borderRadius.medium,
   },

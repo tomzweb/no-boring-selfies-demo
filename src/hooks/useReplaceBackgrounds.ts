@@ -72,11 +72,19 @@ const useReplaceBackground = ({
         allBackgrounds.map(image => getMergedImage(image)),
       );
     };
+    let mounted = true;
     getAllNewSelfies().then(result => {
-      setProcessed(result.length);
-      setNewSelfies(result.filter(item => item.mergedUri !== ''));
+      if (mounted) {
+        setProcessed(result.length);
+        setNewSelfies(result.filter(item => item.mergedUri !== ''));
+      }
     });
+    return () => {
+      mounted = false;
+    };
   }, [allBackgrounds, maxWidth, selfieUri]);
+
+
 
   useEffect(() => {
     if (
