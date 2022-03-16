@@ -1,5 +1,5 @@
 import {BackgroundImage, Selfie} from '../utilities/Types';
-import {useEffect, useState} from 'react';
+import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import Images from '../assets/images/Images';
 import {Image} from 'react-native';
 import {replaceBackground} from 'react-native-image-selfie-segmentation';
@@ -12,6 +12,9 @@ interface InputProps {
 interface ReturnProps {
   newSelfies: Selfie[];
   loading: boolean;
+  filters: string[];
+  currentFilter: string;
+  setCurrentFilter: Dispatch<SetStateAction<string>>;
 }
 
 const useReplaceBackground = ({
@@ -22,17 +25,28 @@ const useReplaceBackground = ({
   const [newSelfies, setNewSelfies] = useState<Selfie[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [processed, setProcessed] = useState<number>(0);
+  const [filters, setFilters] = useState<string[]>([]);
+  const [currentFilter, setCurrentFilter] = useState<string>('');
 
   useEffect(() => {
-    setLoading(true);
     const imageCategories: string[] = Object.keys(Images);
-    imageCategories.map(key => {
-      Images[key].map((image: BackgroundImage) => {
+    setFilters(imageCategories);
+    setCurrentFilter(imageCategories[0]);
+  }, []);
+
+  useEffect(() => {
+    if (currentFilter !== '') {
+      // reset
+      setLoading(true);
+      setNewSelfies([]);
+      setAllBackgrounds([]);
+      setProcessed(0);
+      Images[currentFilter].map((image: BackgroundImage) => {
         const imageUri = Image.resolveAssetSource(image.src).uri;
         setAllBackgrounds(prev => [...prev, imageUri]);
       });
-    });
-  }, []);
+    }
+  }, [currentFilter]);
 
   useEffect(() => {
     const getMergedImage = async (image: string): Promise<Selfie> => {
@@ -65,12 +79,16 @@ const useReplaceBackground = ({
   }, [allBackgrounds, maxWidth, selfieUri]);
 
   useEffect(() => {
-    if (loading && processed === allBackgrounds.length) {
+    if (
+      loading &&
+      allBackgrounds.length !== 0 &&
+      processed === allBackgrounds.length
+    ) {
       setLoading(false);
     }
   }, [allBackgrounds, loading, processed]);
 
-  return {newSelfies: newSelfies, loading};
+  return {newSelfies, loading, filters, currentFilter, setCurrentFilter};
 };
 
 export default useReplaceBackground;

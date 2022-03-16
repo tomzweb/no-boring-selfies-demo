@@ -17,6 +17,7 @@ import SelfieImage from './components/SelfieImage';
 import Button from './components/Button';
 import Loading from './components/Loading';
 import useReplaceBackground from './hooks/useReplaceBackgrounds';
+import Filters from './components/Filters';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Gallery'>;
 
@@ -30,10 +31,11 @@ const GalleryScreen = ({route}: Props) => {
   const maxHeight = aspectRatio > 1 ? maxWidth * aspectRatio : maxWidth;
   const containerWidth = maxWidth;
 
-  const {newSelfies, loading} = useReplaceBackground({
-    selfieUri: uri,
-    maxWidth,
-  });
+  const {newSelfies, loading, filters, currentFilter, setCurrentFilter} =
+    useReplaceBackground({
+      selfieUri: uri,
+      maxWidth,
+    });
 
   const hasAndroidPermission = async () => {
     const permission = PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE;
@@ -88,6 +90,11 @@ const GalleryScreen = ({route}: Props) => {
       <Loading isActive={loading} title="Processing" />
       {!loading && newSelfies.length > 0 && (
         <>
+          <Filters
+            filters={filters}
+            currentFilter={currentFilter}
+            setCurrentFilter={setCurrentFilter}
+          />
           <View style={styles.flatList}>
             <FlatList
               horizontal={true}

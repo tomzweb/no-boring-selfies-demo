@@ -12,6 +12,7 @@ export const Theme = {
     bold: '900',
   },
   spacing: {
+    tiny: 2,
     small: 5,
     medium: 10,
     large: 20,
@@ -20,6 +21,7 @@ export const Theme = {
     small: 5,
     medium: 10,
     large: 20,
+    full: 9999,
   },
   colors: {
     greyLightest: '#dcdcdc',
