@@ -5,7 +5,7 @@ import {replaceBackground} from 'react-native-image-selfie-segmentation';
 import CameraRoll from '@react-native-community/cameraroll';
 import {Selfie} from '../utilities/Types';
 import Button from './Button';
-import {windowWidth} from '../utilities/Utilities';
+import {windowHeight, windowWidth} from '../utilities/Utilities';
 
 interface Props {
   selfie: Selfie;
@@ -73,6 +73,8 @@ const SelfieImage = ({
     }
   };
 
+  const btnWidth = imageWidth ? imageWidth - Theme.spacing.large * 2 : '100%';
+
   return (
     <View
       style={[
@@ -83,7 +85,7 @@ const SelfieImage = ({
         },
       ]}>
       <Image
-        style={[styles.image, {width: imageWidth, height: imageHeight}]}
+        style={[styles.image, {width: imageWidth, height: imageHeight && imageHeight > windowHeight ? windowHeight - 400 : imageHeight}]}
         resizeMode={resizeMode}
         source={{uri: selfie.mergedUri}}
       />
@@ -95,7 +97,11 @@ const SelfieImage = ({
         iconColor={Theme.colors.blue}
         onPressHandler={saveImage}
         onPressResultText={loading ? 'Saving...' : savedMessage}
-        containerStyle={isDarkMode ? [styles.btn, styles.btnDark] : styles.btn}
+        containerStyle={
+          isDarkMode
+            ? [styles.btn, styles.btnDark, {width: btnWidth}]
+            : [styles.btn, {width: btnWidth}]
+        }
         textStyle={
           isDarkMode ? [styles.btnText, styles.btnTextDark] : styles.btnText
         }

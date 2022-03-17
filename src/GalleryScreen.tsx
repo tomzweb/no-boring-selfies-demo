@@ -28,7 +28,8 @@ const GalleryScreen = ({navigation, route}: Props) => {
   const scrollX = useRef(new Animated.Value(0)).current;
   const {uri, width, height} = route.params;
   const aspectRatio = width < height ? height / width : width / height;
-  const maxWidth = windowWidth - Theme.spacing.large * 2;
+  const maxWidth =
+    (windowWidth > 600 ? 600 : windowWidth) - Theme.spacing.large * 2;
   const maxHeight =
     width < height ? maxWidth * aspectRatio : maxWidth / aspectRatio;
 
@@ -91,7 +92,7 @@ const GalleryScreen = ({navigation, route}: Props) => {
                     imageWidth={maxWidth}
                     imageHeight={maxHeight}
                     index={index}
-                    resizeMode="contain"
+                    resizeMode={maxHeight > height ? 'cover' : 'contain'}
                   />
                 );
               }}
