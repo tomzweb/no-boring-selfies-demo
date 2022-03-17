@@ -16,6 +16,7 @@ export const Theme = {
     small: 5,
     medium: 10,
     large: 20,
+    larger: 30,
   },
   borderRadius: {
     small: 5,

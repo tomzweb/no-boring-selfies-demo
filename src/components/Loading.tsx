@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import {FontWeight, Theme} from '../theme/Theme';
-import {windowWidth} from '../utilities/Utilities';
+import {windowHeight, windowWidth} from '../utilities/Utilities';
 import LoadingIcon from './LoadingIcon';
 
 interface Props {
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 10,
     width: windowWidth,
-    height: '100%',
+    height: windowHeight,
     top: 0,
     left: 0,
     right: 0,

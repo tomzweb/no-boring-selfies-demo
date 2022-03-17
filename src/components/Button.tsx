@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  StyleProp,
+  StyleSheet,
+  Text, TextStyle,
+  TouchableOpacity,
+  ViewStyle,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import {FontWeight, Theme} from '../theme/Theme';
@@ -13,6 +19,8 @@ interface Props {
   loading?: boolean;
   onPressHandler: () => void;
   onPressResultText?: string;
+  containerStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 const Button = ({
@@ -23,6 +31,8 @@ const Button = ({
   loading = false,
   onPressHandler,
   onPressResultText,
+  containerStyle,
+  textStyle,
 }: Props) => {
   const [label, setLabel] = useState<string>(title);
 
@@ -42,7 +52,11 @@ const Button = ({
 
   return (
     <TouchableOpacity
-      style={loading ? [styles.container, styles.disabled] : styles.container}
+      style={
+        loading
+          ? [styles.container, containerStyle, styles.disabled]
+          : [styles.container, containerStyle]
+      }
       onPress={onPressHandler}
       disabled={loading}>
       {!loading && icon && (
@@ -54,16 +68,17 @@ const Button = ({
         />
       )}
       {loading && <LoadingIcon size={iconSize} />}
-      <Text style={styles.text}>{label}</Text>
+      <Text style={[styles.text, textStyle]}>{label}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: Theme.spacing.large,
+    paddingVertical: Theme.spacing.large,
+    paddingHorizontal: Theme.spacing.larger,
     backgroundColor: Theme.colors.blue,
-    borderRadius: Theme.borderRadius.small,
+    borderRadius: Theme.borderRadius.full,
     marginBottom: Theme.spacing.medium,
     flexDirection: 'row',
     alignItems: 'center',

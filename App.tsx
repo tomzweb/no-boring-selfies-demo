@@ -29,27 +29,11 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerStyle: headerStyle,
-          headerTitleStyle: headerStyle,
-          headerShadowVisible: false,
-          headerTintColor: Theme.colors.pink,
+          headerShown: false,
           contentStyle: [styles.container, contentStyle],
         }}>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="Gallery"
-          component={GalleryScreen}
-          options={{
-            headerTitle: '',
-            headerBackTitle: 'Change Selfie',
-          }}
-        />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Gallery" component={GalleryScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

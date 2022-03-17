@@ -1,12 +1,7 @@
 import React, {Dispatch, SetStateAction} from 'react';
-import {
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, ScrollView, View} from 'react-native';
 import {FontWeight, Theme} from '../theme/Theme';
+import Button from './Button';
 
 interface Props {
   filters: string[];
@@ -28,23 +23,21 @@ const Filters = ({filters, currentFilter, setCurrentFilter}: Props) => {
               : [styles.btn];
 
           return (
-            <TouchableOpacity
+            <Button
               key={filter}
-              style={
+              title={filter}
+              onPressHandler={() => setCurrentFilter(filter)}
+              containerStyle={
                 filters.length - 1 != index
                   ? btnStyles
                   : [btnStyles, styles.btnLast]
               }
-              onPress={() => setCurrentFilter(filter)}>
-              <Text
-                style={
-                  currentFilter === filter
-                    ? [styles.btnText, styles.btnActiveText]
-                    : styles.btnText
-                }>
-                {filter}
-              </Text>
-            </TouchableOpacity>
+              textStyle={
+                currentFilter === filter
+                  ? [styles.btnText, styles.btnActiveText]
+                  : styles.btnText
+              }
+            />
           );
         })}
       </ScrollView>
@@ -64,6 +57,7 @@ const styles = StyleSheet.create({
     borderWidth: Theme.spacing.tiny,
     borderColor: Theme.colors.blue,
     marginLeft: Theme.spacing.large,
+    backgroundColor: 'transparent',
   },
   btnActive: {
     backgroundColor: Theme.colors.blue,
@@ -73,7 +67,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: Theme.colors.blue,
-    fontSize: Theme.fontSize.medium,
+    fontSize: Theme.fontSize.small,
     fontWeight: Theme.fontWeight.light as FontWeight,
     lineHeight: Theme.fontSize.medium + 5,
   },
