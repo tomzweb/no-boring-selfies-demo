@@ -1,7 +1,7 @@
 import {BackgroundImage, Selfie} from '../utilities/Types';
 import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import Images from '../assets/images/Images';
-import {Image} from 'react-native';
+import {Image, Platform} from 'react-native';
 import {replaceBackground} from 'react-native-image-selfie-segmentation';
 
 interface InputProps {
@@ -51,15 +51,17 @@ const useReplaceBackground = ({
   useEffect(() => {
     const getMergedImage = async (image: string): Promise<Selfie> => {
       if (selfieUri && image) {
-        return await replaceBackground(selfieUri, image, maxWidth).then(
-          result => {
-            return {
-              selfieUri: selfieUri,
-              backgroundUri: image,
-              mergedUri: result,
-            };
-          },
-        );
+        return await replaceBackground(
+          selfieUri,
+          image,
+          Platform.OS === 'ios' ? maxWidth : maxWidth * 2,
+        ).then(result => {
+          return {
+            selfieUri: selfieUri,
+            backgroundUri: image,
+            mergedUri: result,
+          };
+        });
       }
       return {
         selfieUri: selfieUri,
@@ -83,8 +85,6 @@ const useReplaceBackground = ({
       mounted = false;
     };
   }, [allBackgrounds, maxWidth, selfieUri]);
-
-
 
   useEffect(() => {
     if (

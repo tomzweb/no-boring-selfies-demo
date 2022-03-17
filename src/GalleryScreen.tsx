@@ -29,7 +29,8 @@ const GalleryScreen = ({navigation, route}: Props) => {
   const {uri, width, height} = route.params;
   const aspectRatio = width < height ? height / width : width / height;
   const maxWidth = windowWidth - Theme.spacing.large * 2;
-  const maxHeight = aspectRatio > 1 ? maxWidth * aspectRatio : maxWidth;
+  const maxHeight =
+    width < height ? maxWidth * aspectRatio : maxWidth / aspectRatio;
 
   const {newSelfies, loading, filters, currentFilter, setCurrentFilter} =
     useReplaceBackground({
