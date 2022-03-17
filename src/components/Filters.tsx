@@ -1,5 +1,5 @@
-import React, {Dispatch, SetStateAction} from 'react';
-import {StyleSheet, ScrollView, View} from 'react-native';
+import React, {Dispatch, SetStateAction, useEffect} from 'react';
+import {StyleSheet, ScrollView, View, useColorScheme} from 'react-native';
 import {FontWeight, Theme} from '../theme/Theme';
 import Button from './Button';
 
@@ -10,6 +10,31 @@ interface Props {
 }
 
 const Filters = ({filters, currentFilter, setCurrentFilter}: Props) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
+  useEffect(() => {
+    filters.sort(function (a) {
+      return a !== currentFilter ? 1 : -1;
+    });
+  }, [filters, currentFilter]);
+
+  const getBtnStyles = (filter: string, index: number) => {
+    if (currentFilter === filter) {
+      return [styles.btn, styles.btnActive];
+    }
+    const defaultStyles =
+      filters.length - 1 != index ? styles.btn : [styles.btn, styles.btnLast];
+    return isDarkMode ? [defaultStyles, styles.btnDark] : defaultStyles;
+  };
+
+  const getBtnTextStyles = (filter: string) => {
+    if (currentFilter === filter) {
+      return [styles.btnText, styles.btnActiveText];
+    }
+    const defaultStyles = styles.btnText;
+    return isDarkMode ? [defaultStyles, styles.btnTextDark] : defaultStyles;
+  };
+
   return (
     <View>
       <ScrollView
@@ -17,26 +42,15 @@ const Filters = ({filters, currentFilter, setCurrentFilter}: Props) => {
         horizontal={true}
         showsHorizontalScrollIndicator={false}>
         {filters.map((filter, index) => {
-          const btnStyles =
-            currentFilter === filter
-              ? [styles.btn, styles.btnActive]
-              : [styles.btn];
+          const btnStyles = getBtnStyles(filter, index);
 
           return (
             <Button
               key={filter}
               title={filter}
               onPressHandler={() => setCurrentFilter(filter)}
-              containerStyle={
-                filters.length - 1 != index
-                  ? btnStyles
-                  : [btnStyles, styles.btnLast]
-              }
-              textStyle={
-                currentFilter === filter
-                  ? [styles.btnText, styles.btnActiveText]
-                  : styles.btnText
-              }
+              containerStyle={btnStyles}
+              textStyle={getBtnTextStyles(filter)}
             />
           );
         })}
@@ -48,31 +62,39 @@ const Filters = ({filters, currentFilter, setCurrentFilter}: Props) => {
 const styles = StyleSheet.create({
   container: {
     flexShrink: 1,
-    marginBottom: Theme.spacing.large,
+    marginBottom: Theme.spacing.medium,
   },
   btn: {
     paddingVertical: Theme.spacing.small,
     paddingHorizontal: Theme.spacing.large,
     borderRadius: Theme.borderRadius.full,
     borderWidth: Theme.spacing.tiny,
-    borderColor: Theme.colors.blue,
+    borderColor: Theme.colors.greyLightest,
     marginLeft: Theme.spacing.large,
-    backgroundColor: 'transparent',
+    backgroundColor: Theme.colors.greyLightest,
+  },
+  btnDark: {
+    backgroundColor: Theme.colors.greyDark,
+    borderColor: Theme.colors.greyDark,
   },
   btnActive: {
     backgroundColor: Theme.colors.blue,
+    borderColor: Theme.colors.blue,
   },
   btnLast: {
     marginRight: Theme.spacing.large,
   },
   btnText: {
-    color: Theme.colors.blue,
+    color: Theme.colors.grey,
     fontSize: Theme.fontSize.small,
     fontWeight: Theme.fontWeight.light as FontWeight,
     lineHeight: Theme.fontSize.medium + 5,
   },
   btnActiveText: {
     color: Theme.colors.greyDark,
+  },
+  btnTextDark: {
+    color: Theme.colors.greyLightest,
   },
 });
 

@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {Image, ImageResizeMode, PermissionsAndroid, Platform, StyleSheet, View} from 'react-native';
+import {Image, ImageResizeMode, PermissionsAndroid, Platform, StyleSheet, useColorScheme, View} from 'react-native';
 import {Theme} from '../theme/Theme';
 import {replaceBackground} from 'react-native-image-selfie-segmentation';
 import CameraRoll from '@react-native-community/cameraroll';
@@ -26,6 +26,7 @@ const SelfieImage = ({
   index = 0,
   resizeMode = 'cover',
 }: Props) => {
+  const isDarkMode = useColorScheme() === 'dark';
   const [loading, setLoading] = useState<boolean>(false);
   const [savedMessage, setSavedMessage] = useState<string>();
 
@@ -91,10 +92,13 @@ const SelfieImage = ({
         icon="ios-save"
         loading={loading}
         iconSize={Theme.fontSize.medium}
+        iconColor={Theme.colors.blue}
         onPressHandler={saveImage}
         onPressResultText={loading ? 'Saving...' : savedMessage}
-        containerStyle={styles.btn}
-        textStyle={styles.btnText}
+        containerStyle={isDarkMode ? [styles.btn, styles.btnDark] : styles.btn}
+        textStyle={
+          isDarkMode ? [styles.btnText, styles.btnTextDark] : styles.btnText
+        }
       />
     </View>
   );
@@ -107,15 +111,24 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: Theme.borderRadius.medium,
-    marginBottom: Theme.spacing.large,
+    marginBottom: Theme.spacing.medium,
   },
   btn: {
+    position: 'absolute',
+    bottom: Theme.spacing.medium,
     paddingVertical: Theme.spacing.medium,
     paddingHorizontal: Theme.spacing.large,
-    width: windowWidth - Theme.spacing.large * 2,
+    width: windowWidth - Theme.spacing.large * 4,
+    backgroundColor: Theme.colors.greyLightest,
+  },
+  btnDark: {
+    backgroundColor: Theme.colors.greyDark,
   },
   btnText: {
     fontSize: Theme.fontSize.small,
+  },
+  btnTextDark: {
+    color: Theme.colors.greyLightest,
   },
 });
 

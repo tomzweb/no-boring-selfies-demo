@@ -1,19 +1,19 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
+  Animated,
   FlatList,
+  Image,
   PermissionsAndroid,
   Platform,
   StyleSheet,
   useColorScheme,
   View,
 } from 'react-native';
-import CameraRoll from '@react-native-community/cameraroll';
 
 import {Theme} from './theme/Theme';
-import {RootStackParamList, Selfie} from './utilities/Types';
+import {RootStackParamList} from './utilities/Types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {windowWidth} from './utilities/Utilities';
-import {replaceBackground} from 'react-native-image-selfie-segmentation';
 import SelfieImage from './components/SelfieImage';
 import Button from './components/Button';
 import Loading from './components/Loading';
@@ -25,8 +25,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Gallery'>;
 
 const GalleryScreen = ({navigation, route}: Props) => {
   const isDarkMode = useColorScheme() === 'dark';
-  const [currentImage, setCurrentImage] = useState<Selfie>();
-
+  const scrollX = useRef(new Animated.Value(0)).current;
   const {uri, width, height} = route.params;
   const aspectRatio = width < height ? height / width : width / height;
   const maxWidth = windowWidth - Theme.spacing.large * 2;
@@ -38,6 +37,10 @@ const GalleryScreen = ({navigation, route}: Props) => {
       maxWidth,
     });
 
+  useEffect(() => {
+    scrollX.setValue(0);
+  }, [scrollX, loading]);
+
   const backgroundColor = isDarkMode
     ? Theme.colors.greyDark
     : Theme.colors.white;
@@ -47,16 +50,37 @@ const GalleryScreen = ({navigation, route}: Props) => {
       <Loading isActive={loading} title="Processing" />
       {!loading && newSelfies.length > 0 && (
         <>
+          <View style={StyleSheet.absoluteFill}>
+            {newSelfies.map((selfie, index) => {
+              const inputRange = [
+                (index - 1) * maxWidth,
+                index * maxWidth,
+                (index + 1) * maxWidth,
+              ];
+              const opacity = scrollX.interpolate({
+                inputRange,
+                outputRange: [0, 1, 0],
+              });
+              return (
+                <Animated.Image
+                  blurRadius={25}
+                  key={selfie.backgroundUri}
+                  style={[StyleSheet.absoluteFill, {opacity}]}
+                  source={{uri: selfie.backgroundUri}}
+                />
+              );
+            })}
+          </View>
           <View style={styles.flatList}>
-            <FlatList
+            <Animated.FlatList
               horizontal={true}
-              decelerationRate={0}
-              bounces={false}
-              scrollEventThrottle={1}
+              pagingEnabled={true}
               showsHorizontalScrollIndicator={false}
-              snapToInterval={windowWidth}
+              onScroll={Animated.event(
+                [{nativeEvent: {contentOffset: {x: scrollX}}}],
+                {useNativeDriver: true},
+              )}
               data={newSelfies}
-              initialNumToRender={1}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({item, index}) => {
                 return (
@@ -96,10 +120,10 @@ const GalleryScreen = ({navigation, route}: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Theme.spacing.large,
+    justifyContent: 'center',
   },
   flatList: {
-    marginBottom: Theme.spacing.large,
+    marginBottom: Theme.spacing.medium,
   },
   btnGroup: {
     paddingHorizontal: Theme.spacing.large,

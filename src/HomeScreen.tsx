@@ -67,6 +67,7 @@ const HomeScreen = ({navigation}: Props) => {
         iconSize={Theme.fontSize.larger * 1.5}
         iconColor={iconColor}
         onPressHandler={onImagePickerHandler}
+        containerStyle={styles.btn}
       />
       <Button
         title="Take a new selfie"
@@ -75,6 +76,7 @@ const HomeScreen = ({navigation}: Props) => {
         iconSize={Theme.fontSize.larger * 1.5}
         iconColor={iconColor}
         onPressHandler={onCameraPickerHandler}
+        containerStyle={styles.btn}
       />
     </SafeAreaView>
   );
@@ -89,6 +91,9 @@ const styles = StyleSheet.create({
   btnView: {
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  btn: {
+    borderRadius: Theme.borderRadius.large,
   },
 });
 
