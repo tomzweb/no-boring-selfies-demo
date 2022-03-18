@@ -55,9 +55,9 @@ const GalleryScreen = ({navigation, route}: Props) => {
           <View style={StyleSheet.absoluteFill}>
             {newSelfies.map((selfie, index) => {
               const inputRange = [
-                (index - 1) * maxWidth,
-                index * maxWidth,
-                (index + 1) * maxWidth,
+                (index - 1) * windowWidth,
+                index * windowWidth,
+                (index + 1) * windowWidth,
               ];
               const opacity = scrollX.interpolate({
                 inputRange,
@@ -65,7 +65,7 @@ const GalleryScreen = ({navigation, route}: Props) => {
               });
               return (
                 <Animated.Image
-                  blurRadius={25}
+                  blurRadius={30}
                   key={selfie.backgroundUri}
                   style={[StyleSheet.absoluteFill, {opacity}]}
                   source={{uri: selfie.backgroundUri}}
