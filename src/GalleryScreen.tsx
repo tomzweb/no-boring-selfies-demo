@@ -1,14 +1,5 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {
-  Animated,
-  FlatList,
-  Image,
-  PermissionsAndroid,
-  Platform,
-  StyleSheet,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useEffect, useRef} from 'react';
+import {Animated, StyleSheet, useColorScheme, View} from 'react-native';
 
 import {Theme} from './theme/Theme';
 import {RootStackParamList} from './utilities/Types';
@@ -65,7 +56,7 @@ const GalleryScreen = ({navigation, route}: Props) => {
               });
               return (
                 <Animated.Image
-                  blurRadius={30}
+                  blurRadius={40}
                   key={selfie.backgroundUri}
                   style={[StyleSheet.absoluteFill, {opacity}]}
                   source={{uri: selfie.backgroundUri}}
