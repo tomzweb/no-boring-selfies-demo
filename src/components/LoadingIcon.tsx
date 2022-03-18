@@ -6,9 +6,10 @@ import {Theme} from '../theme/Theme';
 
 interface Props {
   size: number;
+  iconColor?: string;
 }
 
-const LoadingIcon = ({size}: Props) => {
+const LoadingIcon = ({size, iconColor}: Props) => {
   const spinValue = new Animated.Value(0);
 
   Animated.loop(
@@ -30,7 +31,7 @@ const LoadingIcon = ({size}: Props) => {
       <Icon
         name={'ios-cog'}
         size={size ?? Theme.fontSize.large}
-        color={Theme.colors.greyLightest}
+        color={iconColor ?? Theme.colors.greyLightest}
       />
     </Animated.View>
   );

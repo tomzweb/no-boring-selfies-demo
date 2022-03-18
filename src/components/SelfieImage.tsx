@@ -1,5 +1,13 @@
 import React, {useCallback, useState} from 'react';
-import {Image, ImageResizeMode, PermissionsAndroid, Platform, StyleSheet, useColorScheme, View} from 'react-native';
+import {
+  Image,
+  ImageResizeMode,
+  PermissionsAndroid,
+  Platform,
+  StyleSheet,
+  useColorScheme,
+  View,
+} from 'react-native';
 import {Theme} from '../theme/Theme';
 import {replaceBackground} from 'react-native-image-selfie-segmentation';
 import CameraRoll from '@react-native-community/cameraroll';
@@ -83,7 +91,16 @@ const SelfieImage = ({
         },
       ]}>
       <Image
-        style={[styles.image, {width: imageWidth, height: imageHeight && imageHeight > windowHeight ? windowHeight - 400 : imageHeight}]}
+        style={[
+          styles.image,
+          {
+            width: imageWidth,
+            height:
+              imageHeight && imageHeight > windowHeight
+                ? windowHeight - 400
+                : imageHeight,
+          },
+        ]}
         resizeMode={resizeMode}
         source={{uri: selfie.mergedUri}}
       />
@@ -92,7 +109,9 @@ const SelfieImage = ({
         icon="ios-save"
         loading={loading}
         iconSize={Theme.fontSize.medium}
-        iconColor={Theme.colors.blue}
+        iconColor={
+          isDarkMode ? Theme.colors.greyLightest : Theme.colors.greyDark
+        }
         onPressHandler={saveImage}
         onPressResultText={loading ? 'Saving...' : savedMessage}
         containerStyle={

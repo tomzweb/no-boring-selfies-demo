@@ -67,7 +67,7 @@ const Button = ({
           color={iconColor}
         />
       )}
-      {loading && <LoadingIcon size={iconSize} />}
+      {loading && <LoadingIcon size={iconSize} iconColor={iconColor} />}
       <Text style={[styles.text, textStyle]}>{label}</Text>
     </TouchableOpacity>
   );

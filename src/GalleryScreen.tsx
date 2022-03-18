@@ -108,6 +108,9 @@ const GalleryScreen = ({navigation, route}: Props) => {
               title="Change Selfie"
               icon="ios-chevron-back"
               iconSize={Theme.fontSize.medium}
+              iconColor={
+                isDarkMode ? Theme.colors.greyLightest : Theme.colors.greyDark
+              }
               onPressHandler={() => navigation.goBack()}
               containerStyle={styles.btn}
               textStyle={styles.btnText}
