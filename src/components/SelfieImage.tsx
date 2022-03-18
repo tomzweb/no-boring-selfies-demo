@@ -5,7 +5,7 @@ import {replaceBackground} from 'react-native-image-selfie-segmentation';
 import CameraRoll from '@react-native-community/cameraroll';
 import {Selfie} from '../utilities/Types';
 import Button from './Button';
-import {windowHeight, windowWidth} from '../utilities/Utilities';
+import {getError, windowHeight, windowWidth} from '../utilities/Utilities';
 
 interface Props {
   selfie: Selfie;
@@ -55,21 +55,19 @@ const SelfieImage = ({
     }
 
     if (selfie) {
-      await replaceBackground(
-        selfie.selfieUri,
-        selfie.backgroundUri,
-        imageWidth,
-      )
-        .then(result => {
-          CameraRoll.save(result, {type: 'photo'});
-          setSavedMessage('Saved');
-        })
-        .catch(error => {
-          setSavedMessage(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      try {
+        const result = await replaceBackground(
+          selfie.selfieUri,
+          selfie.backgroundUri,
+          imageWidth,
+        );
+        await CameraRoll.save(result, {type: 'photo'});
+        setSavedMessage('Saved');
+        setLoading(false);
+      } catch (e: unknown) {
+        setSavedMessage(getError(e));
+        setLoading(false);
+      }
     }
   };
 
