@@ -41,9 +41,9 @@ const Button = ({
       setLabel(onPressResultText);
     }
     const timeId = setTimeout(() => {
-      // revert title after 3 seconds
+      // revert title after 2 seconds
       setLabel(title);
-    }, 3000);
+    }, 2000);
 
     return () => {
       clearTimeout(timeId);
