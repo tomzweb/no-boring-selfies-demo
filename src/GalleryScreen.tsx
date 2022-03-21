@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet, useColorScheme, View} from 'react-native';
 
 import {Theme} from './theme/Theme';
@@ -16,6 +16,8 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Gallery'>;
 
 const GalleryScreen = ({navigation, route}: Props) => {
   const isDarkMode = useColorScheme() === 'dark';
+  const [hasLoadedBackground, setHasLoadedBackground] =
+    useState<boolean>(false);
   const scrollX = useRef(new Animated.Value(0)).current;
   const {uri, width, height} = route.params;
   const aspectRatio = width < height ? height / width : width / height;
@@ -34,13 +36,13 @@ const GalleryScreen = ({navigation, route}: Props) => {
     scrollX.setValue(0);
   }, [scrollX, loading]);
 
-  const backgroundColor = isDarkMode
-    ? Theme.colors.greyDark
-    : Theme.colors.white;
+  useEffect(() => {
+    setHasLoadedBackground(false);
+  }, [currentFilter]);
 
   return (
-    <SafeAreaView style={[styles.container, {backgroundColor}]}>
-      <Loading isActive={loading} title="Processing" />
+    <SafeAreaView style={styles.container}>
+      <Loading isActive={loading || !hasLoadedBackground} title="Processing" />
       {!loading && newSelfies.length > 0 && (
         <>
           <View style={StyleSheet.absoluteFill}>
@@ -57,6 +59,13 @@ const GalleryScreen = ({navigation, route}: Props) => {
               return (
                 <Animated.Image
                   blurRadius={40}
+                  onLoadEnd={() => {
+                    if (index === 0) {
+                      // to prevent the background flashing into existence
+                      // only hide the loading screen when it has been loaded
+                      setHasLoadedBackground(true);
+                    }
+                  }}
                   key={selfie.backgroundUri}
                   style={[StyleSheet.absoluteFill, {opacity}]}
                   source={{uri: selfie.backgroundUri}}
@@ -89,26 +98,26 @@ const GalleryScreen = ({navigation, route}: Props) => {
               }}
             />
           </View>
-          <Filters
-            filters={filters}
-            currentFilter={currentFilter}
-            setCurrentFilter={setCurrentFilter}
-          />
-          <View style={styles.btnGroup}>
-            <Button
-              title="Change Selfie"
-              icon="ios-chevron-back"
-              iconSize={Theme.fontSize.medium}
-              iconColor={
-                isDarkMode ? Theme.colors.greyLightest : Theme.colors.greyDark
-              }
-              onPressHandler={() => navigation.goBack()}
-              containerStyle={styles.btn}
-              textStyle={styles.btnText}
-            />
-          </View>
         </>
       )}
+      <Filters
+        filters={filters}
+        currentFilter={currentFilter}
+        setCurrentFilter={setCurrentFilter}
+      />
+      <View style={styles.btnGroup}>
+        <Button
+          title="Change Selfie"
+          icon="ios-chevron-back"
+          iconSize={Theme.fontSize.medium}
+          iconColor={
+            isDarkMode ? Theme.colors.greyLightest : Theme.colors.greyDark
+          }
+          onPressHandler={() => navigation.goBack()}
+          containerStyle={styles.btn}
+          textStyle={styles.btnText}
+        />
+      </View>
     </SafeAreaView>
   );
 };

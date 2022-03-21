@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, useColorScheme, View} from 'react-native';
 
 import {FontWeight, Theme} from '../theme/Theme';
 import {windowHeight, windowWidth} from '../utilities/Utilities';
@@ -11,14 +11,28 @@ interface Props {
 }
 
 const Loading = ({isActive, title}: Props) => {
+  const isDarkMode = useColorScheme() === 'dark';
+
   if (!isActive) {
     return null;
   }
 
   return (
-    <View style={styles.container}>
-      <LoadingIcon size={Theme.fontSize.larger} />
-      {title && <Text style={styles.text}>{title}</Text>}
+    <View
+      style={
+        isDarkMode ? [styles.container, styles.containerDark] : styles.container
+      }>
+      <LoadingIcon
+        size={Theme.fontSize.larger}
+        iconColor={
+          isDarkMode ? Theme.colors.greyLightest : Theme.colors.greyDark
+        }
+      />
+      {title && (
+        <Text style={isDarkMode ? [styles.text, styles.textDark] : styles.text}>
+          {title}
+        </Text>
+      )}
     </View>
   );
 };
@@ -33,15 +47,21 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.4)',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: Theme.colors.greyLightest,
+  },
+  containerDark: {
+    backgroundColor: Theme.colors.greyDark,
   },
   text: {
-    color: Theme.colors.greyLightest,
+    color: Theme.colors.greyDark,
     fontSize: Theme.fontSize.medium,
     fontWeight: Theme.fontWeight.light as FontWeight,
     marginTop: Theme.spacing.medium,
+  },
+  textDark: {
+    color: Theme.colors.greyLightest,
   },
 });
 

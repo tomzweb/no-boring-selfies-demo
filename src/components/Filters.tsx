@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction, useEffect} from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {StyleSheet, ScrollView, View, useColorScheme} from 'react-native';
 import {FontWeight, Theme} from '../theme/Theme';
 import Button from './Button';
@@ -12,18 +12,15 @@ interface Props {
 const Filters = ({filters, currentFilter, setCurrentFilter}: Props) => {
   const isDarkMode = useColorScheme() === 'dark';
 
-  useEffect(() => {
-    filters.sort(function (a) {
-      return a !== currentFilter ? 1 : -1;
-    });
-  }, [filters, currentFilter]);
-
   const getBtnStyles = (filter: string, index: number) => {
     if (currentFilter === filter) {
-      return [styles.btn, styles.btnActive];
+      return filters.length - 1 != index
+        ? [styles.btn, styles.btnActive]
+        : [styles.btn, styles.btnActive, styles.btnLast];
     }
     const defaultStyles =
       filters.length - 1 != index ? styles.btn : [styles.btn, styles.btnLast];
+
     return isDarkMode ? [defaultStyles, styles.btnDark] : defaultStyles;
   };
 

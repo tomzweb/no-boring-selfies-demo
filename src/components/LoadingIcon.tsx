@@ -15,7 +15,7 @@ const LoadingIcon = ({size, iconColor}: Props) => {
   Animated.loop(
     Animated.timing(spinValue, {
       toValue: 1,
-      duration: 3000,
+      duration: 1500,
       easing: Easing.linear,
       useNativeDriver: true,
     }),
@@ -26,12 +26,22 @@ const LoadingIcon = ({size, iconColor}: Props) => {
     outputRange: ['0deg', '360deg'],
   });
 
+  const iconSize = size ?? Theme.fontSize.large;
+
   return (
-    <Animated.View style={{transform: [{rotate: spin}]}}>
+    <Animated.View
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        transform: [{rotate: spin}],
+      }}>
       <Icon
-        name={'ios-cog'}
-        size={size ?? Theme.fontSize.large}
+        name={'cog'}
+        size={iconSize}
         color={iconColor ?? Theme.colors.greyLightest}
+        style={{
+          paddingLeft: 2,
+        }}
       />
     </Animated.View>
   );

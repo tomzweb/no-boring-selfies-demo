@@ -28,12 +28,14 @@ const useReplaceBackground = ({
   const [filters, setFilters] = useState<string[]>([]);
   const [currentFilter, setCurrentFilter] = useState<string>('');
 
+  // set the initial category on first load
   useEffect(() => {
     const imageCategories: string[] = Object.keys(Images);
     setFilters(imageCategories);
     setCurrentFilter(imageCategories[0]);
   }, []);
 
+  // on filter change
   useEffect(() => {
     if (currentFilter !== '') {
       // reset
@@ -48,6 +50,7 @@ const useReplaceBackground = ({
     }
   }, [currentFilter]);
 
+  // get the new selfies with the replaced backgrounds
   useEffect(() => {
     const getMergedImage = async (image: string): Promise<Selfie> => {
       if (selfieUri && image) {
@@ -86,6 +89,7 @@ const useReplaceBackground = ({
     };
   }, [allBackgrounds, maxWidth, selfieUri]);
 
+  // on finish of processing backgrounds
   useEffect(() => {
     if (
       loading &&

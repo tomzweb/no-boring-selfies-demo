@@ -16,13 +16,6 @@ const App = () => {
       : Theme.colors.greyLightest,
   };
 
-  const headerStyle = {
-    backgroundColor: isDarkMode
-      ? Theme.colors.greyDarkest
-      : Theme.colors.greyLightest,
-    color: isDarkMode ? Theme.colors.pink : Theme.colors.blue,
-  };
-
   const Stack = createNativeStackNavigator();
 
   return (
