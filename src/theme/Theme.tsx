@@ -4,7 +4,7 @@ export const Theme = {
     medium: 20,
     large: 30,
     larger: 40,
-    max: 50,
+    max: 60,
   },
   fontWeight: {
     light: '300',

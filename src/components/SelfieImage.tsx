@@ -97,7 +97,7 @@ const SelfieImage = ({
             width: imageWidth,
             height:
               imageHeight && imageHeight > windowHeight
-                ? windowHeight - 400
+                ? windowHeight * 0.6
                 : imageHeight,
           },
         ]}

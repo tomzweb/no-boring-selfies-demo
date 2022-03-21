@@ -64,7 +64,7 @@ const HomeScreen = ({navigation}: Props) => {
         title="From your photo library"
         icon="ios-images"
         loading={loading === Picker.LIBRARY}
-        iconSize={Theme.fontSize.larger * 1.5}
+        iconSize={Theme.fontSize.max}
         iconColor={iconColor}
         onPressHandler={onImagePickerHandler}
         containerStyle={styles.btn}
@@ -73,7 +73,7 @@ const HomeScreen = ({navigation}: Props) => {
         title="Take a new selfie"
         icon="ios-camera"
         loading={loading === Picker.CAMERA}
-        iconSize={Theme.fontSize.larger * 1.5}
+        iconSize={Theme.fontSize.max}
         iconColor={iconColor}
         onPressHandler={onCameraPickerHandler}
         containerStyle={styles.btn}
